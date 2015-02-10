@@ -1,5 +1,0 @@
-"Delay.obj",
-"Main.obj",
-"UART.obj" 
-TO "UART" 
-RAMSIZE(256) 

@@ -1,5 +1,0 @@
-#ifndef _UART_H
-#define _UART_H
-
-void Init_UART();	//¨ç¼Æ«Å§i
-
