@@ -1,0 +1,4 @@
+---- MonHelp Matches (3 in 2 files) ----
+Monitor.c:void MonHelp(void) large
+Monitor.c:		MonHelp();
+Monitor.h:extern void MonHelp(void);

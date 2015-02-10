@@ -1,0 +1,428 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="zh-TW">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+
+
+
+<meta name="description" content="8051同時提供同步以及非同步的通訊模式。它可以在三種(模式1, 2, 3)全雙工模式下作UART使用。 操作在非同步模式下時，可以允許傳送與接收同時進行，並且使用不同的鮑率。 通用非同步收發傳輸器（">
+<meta name="author" content="vd5678 (vd5678)">
+<meta name="author-avatar-20" content="http://s9.pimg.tw/avatar/vd5678/0/0/zoomcrop/20x20.jpg?v=1276146967">
+<meta name="generator" content="PChoc">
+<meta name="google-site-verification" content="dTsV91gjJQ9QqilWurW0P-gLtxUY7stP8lY98hKKM1w">
+<meta name="keywords" content="電子電路 8051 單晶片 電晶體 專題 實習,不設分類,認識8051的UART / 串列介面">
+<link rel="canonical" href="http://vd5678.pixnet.net/blog/post/8057442">
+<link rel="search" type="application/opensearchdescription+xml" href="http://vd5678.pixnet.net/blog/opensearch" title="eeStuff - All About Electronics Engineering">
+<title>認識8051的UART / 串列介面 @ eeStuff - All About Electronics Engineering :: 痞客邦 PIXNET ::</title>
+
+
+
+
+
+
+
+
+<link rel="alternate" type="application/rss+xml" title="RSS 2.0" href="http://vd5678.pixnet.net/blog/feed/rss">
+<link rel="alternate" type="application/atom+xml" title="Atom 1.0" href="http://vd5678.pixnet.net/blog/feed/atom">
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://api.pixnet.cc/blog/xmlrpc?rsd=vd5678">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://api.pixnet.cc/static/blog/wlwmanifest.xml">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="imagetoolbar" content="no">
+
+
+<link rel="stylesheet" type="text/css" href="index.css" media="all">
+</head>
+<body id="article-main" class="" ondragstart="return false" oncontextmenu="return false" onselectstart="return false"><div id="tyntPrint"></div>
+  <div id="body-div">
+  <a name="top"></a>
+    <div id="container">
+    <div id="container2">
+      <div id="container3">
+          <div id="header">
+            <div id="login-bar">
+		        <a href="http://www.pixnet.net/?done=http%3A%2F%2Fvd5678.pixnet.net%2Fblog%2Fpost%2F8057442">登入</a>
+    <span class="separator">|</span>
+    <a href="http://www.pixnet.net/signup">免費註冊</a>
+        <span class="separator">|</span>
+    <a id="pixnet-lang" href="#"><span>語系▼</span></a>
+        <span class="separator">|</span>
+    <a href="http://www.pixnet.net/blog">部落格首頁</a>
+        <span class="separator">|</span>
+    <a href="http://www.pixnet.net/">痞客邦 PIXNET</a>
+
+            </div>
+            <div id="banner">
+		<h1><a href="http://vd5678.pixnet.net/blog">eeStuff - All About Electronics Engineering</a></h1>
+              <p class="skiplink"><a href="#article-area" title="skip the page header to the main content">跳到主文</a></p>
+              <h2>我的電子工程點滴、電路小品、歡迎同好交流</h2>
+	      <p id="blog-category">部落格全站分類：<a href="http://www.pixnet.net/blog/blog/2/11" target="_top">收藏嗜好</a></p>
+            </div>
+            <ul id="navigation">
+              <li id="link-album"><a href="http://vd5678.pixnet.net/album" title="go to gallery page of this user">相簿</a></li>
+              <li id="link-blog"><a href="http://vd5678.pixnet.net/blog" title="go to index page of this blog">部落格</a></li>
+              <li id="link-guestbook"><a href="http://vd5678.pixnet.net/guestbook" title="go to guestbook page of this user">留言</a></li>
+              <li id="link-profile"><a href="http://vd5678.pixnet.net/profile" title="go to profile page of this user">名片</a></li>
+            </ul>
+          </div><!-- #header//-->
+          <div id="main">
+            <div id="content">
+				<div id="article-area">
+    <div id="article-box">
+    		<div class="article">
+	    <ul class="article-head">
+		<li class="publish"><span class="month">Jun </span><span class="date">11 </span><span class="day">Fri </span><span class="year">2010 </span><span class="time">03:18</span></li>
+		<li class="title show-recommend" id="article-8057442-0-0"><h2><a href="http://vd5678.pixnet.net/blog/post/8057442">認識8051的UART / 串列介面</a></h2></li>
+	    </ul>
+	    <div class="article-body">
+	    				<div class="article-content">
+		    <p>8051同時提供同步以及非同步的通訊模式。它可以在三種(模式1, 2, 3)全雙工模式下作UART使用。</p>
+<p>操作在非同步模式下時，可以允許傳送與接收同時進行，並且使用不同的鮑率。</p>
+<p><strong><span style="color: rgb(128, 128, 128);"><em>通用非同步收發傳輸器</em></span></strong><span style="color: rgb(128, 128, 128);"><em>（Universal Asynchronous Receiver/Transmitter，通常稱作</em></span><strong><span style="color: rgb(128, 128, 128);"><em>UART</em></span></strong><span style="color: rgb(128, 128, 128);"><em>，讀音／ˈjuːart/）是一種</em></span><a style="text-decoration: none; background-image: none;" title="非同步收發傳輸器 （頁面未存在）" href="http://zh.wikipedia.org/w/index.php?title=%E5%BC%82%E6%AD%A5%E6%94%B6%E7%99%BC%E5%82%B3%E8%BC%B8%E5%99%A8&amp;action=edit&amp;redlink=1"><span style="color: rgb(128, 128, 128);"><em>非同步收發傳輸器</em></span></a><span style="color: rgb(128, 128, 128);"><em>，是</em></span><a style="text-decoration: none; background-image: none;" title="電腦" href="http://zh.wikipedia.org/zh-tw/%E9%9B%BB%E8%85%A6"><span style="color: rgb(128, 128, 128);"><em>電腦</em></span></a><a style="text-decoration: none; background-image: none;" title="硬體" href="http://zh.wikipedia.org/zh-tw/%E7%A1%AC%E4%BB%B6"><span style="color: rgb(128, 128, 128);"><em>硬體</em></span></a><span style="color: rgb(128, 128, 128);"><em>的一部分，將資料由</em></span><a style="text-decoration: none; background-image: none;" title="串列傳輸 （頁面未存在）" href="http://zh.wikipedia.org/w/index.php?title=%E4%B8%B2%E8%A1%8C%E5%82%B3%E8%BC%B8&amp;action=edit&amp;redlink=1"><span style="color: rgb(128, 128, 128);"><em>串列傳輸</em></span></a><span style="color: rgb(128, 128, 128);"><em>（</em></span><a style="text-decoration: none; background-image: none;" title="en:Serial communication" href="http://en.wikipedia.org/wiki/Serial_communication"><span style="color: rgb(128, 128, 128);"><em>Serial communication</em></span></a><span style="color: rgb(128, 128, 128);"><em>）與</em></span><a style="text-decoration: none; background-image: none;" title="平行傳輸 （頁面未存在）" href="http://zh.wikipedia.org/w/index.php?title=%E5%B9%B3%E8%A1%8C%E5%82%B3%E8%BC%B8&amp;action=edit&amp;redlink=1"><span style="color: rgb(128, 128, 128);"><em>平行傳輸</em></span></a><span style="color: rgb(128, 128, 128);"><em>（</em></span><a style="text-decoration: none; background-image: none;" title="en:Parallel communication" href="http://en.wikipedia.org/wiki/Parallel_communication"><span style="color: rgb(128, 128, 128);"><em>Parallel communication</em></span></a><span style="color: rgb(128, 128, 128);"><em>）間作傳輸轉換。UART通常用在與其他通訊協定（如</em></span><a style="text-decoration: none; background-image: none;" title="電子工業聯盟" href="http://zh.wikipedia.org/zh-tw/%E7%94%B5%E5%AD%90%E5%B7%A5%E4%B8%9A%E8%81%94%E7%9B%9F"><span style="color: rgb(128, 128, 128);"><em>EIA</em></span></a><span style="color: rgb(128, 128, 128);"><em>&nbsp;</em></span><a style="text-decoration: none; background-image: none;" title="RS-232" href="http://zh.wikipedia.org/zh-tw/RS-232"><span style="color: rgb(128, 128, 128);"><em>RS-232</em></span></a><span style="color: rgb(128, 128, 128);"><em>）的連結上。<br></em><span style="color: rgb(128, 128, 128);"><em>~節錄自&nbsp;</em></span></span><a href="http://zh.wikipedia.org/zh-tw/UART" target="_top"><span style="color: rgb(128, 128, 128);"><em>UART(維基百科，自由的百科全書)</em></span></a></p>
+<p><!-- more --></p>
+<p>&nbsp;</p>
+<p>8051也提供輸入緩衝功能。意即實際上內部有兩個接收暫存器，當第一級的資料搬到第二級之後，才允許接收下一筆資料。</p>
+<p>不過，如果第下一筆資料收到的時候，還沒從SBUF提取資料的話，最早的那筆資料就會被擠掉(will be lost)。</p>
+<p>串列埠接收及傳送資料都是操作同一個特殊功能暫存器 SBUF。執行寫入時是對應到傳送暫存器，讀取則是對應到物理上的第二級接收暫存器。</p>
+<p>&nbsp;</p>
+<p><span style="color: rgb(128, 128, 128);">SBUF 在 SFR 的位址 = 99H</span></p>
+<p><strong>串列資料緩衝器(Serial Data Buffer, SBUF)</strong><br>是由兩個不同的暫存器所組成：傳送緩衝和接收緩衝暫存器。<br>當把資料寫到SBUF時，資料會被放到傳送緩衝暫存器等待傳送；事實上對使用者來說，當把資料丟到SBUF上時，傳送就開始了。<br>當從SBUF讀取資料時，會讀取來自接收暫存器的資料。<br>由於傳送與接收實際上是操作兩個不同的暫存器，所以8051可以允許傳送與接收同時進行。</p>
+<p>&nbsp;</p>
+<p>串列埠有以下四種工作模式：</p>
+<p><strong>模式0 / MODE0: (SM0, SM1) = (0, 0)</strong><br>資料的傳送及接收皆透過RXD(P3.0)，TXD(P3.1)則負責輸出移位脈波。<br>傳送與接收的資料長度皆為8位元 (先傳送LSB)。鮑率始終為震盪頻率的 1/12。</p>
+<p>模式0可應用於I/O擴充及連接多個8051。<br>作I/O擴充時，只要將RXD及TXD連接到並入串出(PISO)的IC，就可以擴充一個8位元的輸入埠；<br>接到一個串入並出(SIPO)的IC，就可以擴充一個8位元的輸出埠。&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong>模式1 / MODE1: (SM0, SM1) = (0, 1)</strong><br>資料的傳送透過TXD，接收透過RXD。<br>傳送與接收的資料長度皆為10個位元：</p>
+<p>起始位元('0') + 8個資料位元(先傳送LSB) &nbsp;+ 結束位元('1')<br><a href="http://vd5678.pixnet.net/album/photo/151779754"><img style="width: 400px; height: 60px;" title="mode1.jpg" src="ce12cb7a65c9af843afb9b80e3fb7028.jpg" alt="mode1.jpg" border="0"></a> </p>
+<p>在接收週期時，接收到的停止位元會存放到特殊功能暫存器 SCON 的 RB8(SCON.2)。<br>在模式1中，鮑率是可以透過 TIMER1 設定的。&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong>模式2 / MODE2: (SM0, SM1) = (1, 0)</strong><br>資料的傳送透過TXD，接收透過RXD。<br>傳送與接收的資料長度皆為11個位元：</p>
+<p>起始位元('0') + 8個資料位元(先傳送LSB) &nbsp;+ 可規劃的第9資料位元 + 結束位元('1')<br><a href="http://vd5678.pixnet.net/album/photo/151779755"><img style="width: 400px; height: 57px;" title="mode23.jpg" src="8b1a2cc39113a02414463b10d346a84d.jpg" alt="mode23.jpg" border="0"></a> &nbsp;</p>
+<p><br>在傳送週期時，第9資料位元，可由特殊功能暫存器 SCON 的 TB8(SCON.3) 指定為 '0' 或 '1'；<br>在應用上，我們可以將同位檢查旗標(P, PSW.0) 存放到 TB8。</p>
+<p>在接收週期時，第9資料位元會被存放到特殊功能暫存器 SCON 中的 RB8(SCON.2) ，停止位元不會被存放到 RB8 中。</p>
+<p>在模式2中，鮑率可以被設定成震盪頻率的 1/32 或 1/64。&nbsp;</p>
+<p>&nbsp;</p>
+<p><strong>模式3 MODE3: (SM0, SM1) = (1, 1)</strong><br>資料的傳送透過TXD，接收透過RXD。<br>傳送與接收的資料長度皆為11個位元：</p>
+<p>起始位元('0') + 8個資料位元(先傳送LSB) &nbsp;+ 可規劃的第9資料位元 + 結束位元('1')<br><a href="http://vd5678.pixnet.net/album/photo/151779755"><img style="width: 400px; height: 57px;" title="mode23.jpg" src="8b1a2cc39113a02414463b10d346a84d.jpg" alt="mode23.jpg" border="0"></a> &nbsp;</p>
+<p>事實上，模式3 與 模式2 除了鮑率的設定外，功能是完全相同的。</p>
+<p>模式3 與 模式1 一樣都是透過 TIMER1 來設定鮑率。</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: rgb(136, 136, 136);">在 模式0 中，啟動接收的條件是 REN = '1' 以及&nbsp;RI = '0' 。<br>在 模式1, 2, 3 中 ，啟動接收的條件是 REN = '1' 以及接收到起始位元。</span></p>
+<p>&nbsp;</p>
+<p>串列I/O埠還包含下列兩種增強功能：<br>• 封包錯誤檢測 (Framing error detection)<br>&nbsp;&nbsp; － 檢查錯誤的停止位元<br><br>• 自動位址識別 (Automatic address recognition)<br>&nbsp;&nbsp; － 用在多顆8051的通訊架構&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="color: rgb(136, 136, 136);">SCON 在 SFR 的位址 = 98H</span></p>
+<p><strong>串列埠控制及狀態暫存器 SCON</strong><br>包含 模式選擇位元(SM0, SM1)、可程式化的第9資料位元(TB8, RB8)、以及串列埠中斷位元(TI, RI)</p>
+<p>&nbsp;</p>
+<p>在下一回中，我們將討論如何透過組合語言來實作模式1的模型</p>
+<p>&nbsp;</p>
+<p>資料來源：&nbsp;<a href="http://www.atmel.com/dyn/resources/prod_documents/DOC4316.PDF" target="_top">Atmel 8051 Microcontrollers Hardware Manual</a></p>
+<p><span style="color: rgb(0, 0, 255);">贊助商連結：</span></p>
+
+<ins style="display: inline-table; border: medium none; height: 60px; margin: 0pt; padding: 0pt; position: relative; visibility: visible; width: 468px;"><ins id="aswift_0_anchor" style="display: block; border: medium none; height: 60px; margin: 0pt; padding: 0pt; position: relative; visibility: visible; width: 468px;"><iframe src="index_1.html" allowtransparency="true" hspace="0" marginwidth="0" marginheight="0" vspace="0" id="aswift_0" name="aswift_0" style="left: 0pt; position: absolute; top: 0pt;" width="468" frameborder="0" height="60" scrolling="no"></iframe></ins></ins>
+<p>
+<br>
+<a id="sitebro_stick_logo" class="logo" href="http://www.sitebro.com.tw/zh82126219" target="_top"><img style="border: 0pt none;" src="stick_sitebro.png" alt=""></a></p>
+
+
+<p><a href="http://pt.sitebro.net/"><img style="border: 0pt none;" src="px.gif" alt=""></a></p>		<div class="recommended-posts3 recommended-posts">
+    <h5><span>您可能會有興趣的文章 </span></h5>
+    <ul>	<li>
+	    <a href="http://vd5678.pixnet.net/blog/post/7590954">
+		<img src="100x100.jpg">
+		<span>電晶體組成的RS232C準位轉換器</span>
+	    </a>
+	</li>	<li>
+	    <a href="http://vd5678.pixnet.net/blog/post/7750972">
+		<img src="100x100_001.jpg">
+		<span>C# 如何指定Form表單的起始位置</span>
+	    </a>
+	</li>	<li>
+	    <a href="http://sinee.pixnet.net/blog/post/25987525">
+		<img src="100x100_002.jpg">
+		<span>全系列機電控制專業書 .5</span>
+	    </a>
+	</li>	<li>
+	    <a href="http://vbqa.pixnet.net/blog/post/54264770">
+		<img src="100x100_003.jpg">
+		<span>8951透過rs232傳送資料到vb6顯示(編號：16492)</span>
+	    </a>
+	</li>    </ul>
+</div>
+</div> <!-- .article-content //-->
+				    <div class="bookmark"><span style="position: relative; top: -7px;">分享:</span>
+<!-- MURMUR --><a title="分享至MURMUR" href="http://murmur.tw/?sharelink="><img src="murmur.gif" title="MURMUR" alt="MURMUR" style="width: 20px; height: 20px;" border="0"></a>
+<!-- facebook --><a title="分享至facebook" href="http://www.facebook.com/share.php?u="><img src="facebook.gif" title="facebook" alt="facebook" style="width: 18px; height: 20px;" border="0"></a>
+<!-- PLURK --><a title="分享至PLURK" href="http://www.plurk.com/?qualifier=shares&amp;status="><img src="plurk.gif" title="PLURK" alt="PLURK" style="width: 18px; height: 20px;" border="0"></a>
+<!-- twitter --><a title="分享至twitter" href="http://twitter.com/?status="><img src="twitter.gif" title="twitter" alt="twitter" style="width: 18px; height: 20px;" border="0"></a>
+<!-- Del.icio.us --><a title="分享至Delicious" href="http://del.icio.us/post?title="><img src="delicious.gif" title="Del.icio.us" alt="Del.icio.us" style="width: 18px; height: 20px;" border="0"></a>
+<!-- Funp iframe --><iframe marginwidth="0" marginheight="0" src="index_3.html" width="70" frameborder="0" height="20" scrolling="no"></iframe>
+<!-- facebook iframe --><iframe src="index_4.html" style="border: medium none; overflow: hidden; width: 90px; height: 21px;" allowtransparency="true" frameborder="0" scrolling="no"></iframe></div>
+				<p class="author">
+		    vd5678 發表在 <a href="http://www.pixnet.net/">痞客邦 PIXNET</a>		    <a href="http://vd5678.pixnet.net/blog/post/8057442#comments">迴響</a>(0) <a href="http://vd5678.pixnet.net/blog/post/8057442#trackback">引用</a>(0) <span class="author-views">人氣(<span id="BlogArticleCount-8057442">1073</span>)</span>
+		    		</p> <!-- .author //-->
+		<div class="forward">
+		    <form method="POST" id="0rz-form" action="http://0rz.tw/create" target="_blank">
+    <input name="url" value="http://vd5678.pixnet.net/blog/post/8057442" type="hidden">
+</form>
+<a href="javascript:return%20false;" onclick="jQuery('#0rz-form').submit();"><img src="push_0rz_icon.gif">產生短網址</a>
+ 
+		    <a href="javascript:;" onclick="pix.sendForwardTo('%B1z%AA%BA%A6n%AAB%A4%CD%C1%DC%BD%D0%B1z%C6%5B%AC%DD%20vd5678%20%AA%BA%B5l%AB%C8%A8%B9%20PIXNET%20%B3%A1%B8%A8%AE%E6%A4%E5%B3%B9-%BB%7B%C3%D18051%AA%BAUART%20%2F%20%A6%EA%A6C%A4%B6%AD%B1','%B1z%A6n%A1A%0A%0A%B1z%AA%BA%A6n%AAB%A4%CD%C1%DC%BD%D0%B1z%C6%5B%AC%DD%20vd5678%20%AA%BA%B5l%AB%C8%A8%B9%20PIXNET%20%B3%A1%B8%A8%AE%E6%A4%E5%B3%B9-%BB%7B%C3%D18051%AA%BAUART%20%2F%20%A6%EA%A6C%A4%B6%AD%B1%0A%B6V%A6h%A4H%AC%DD%A8%EC%A1A%A5i%C0%B0%A5L%BCW%A5%5B%B6V%A6h%A4H%AE%F0%B3%E1%7EGO%A1I%0A----------%0AJune11%2C2010%0A%BB%7B%C3%D18051%AA%BAUART%20%2F%20%A6%EA%A6C%A4%B6%AD%B1%0A%0A8051%A6P%AE%C9%B4%A3%A8%D1%A6P%A8B%A5H%A4%CE%ABD%A6P%A8B%AA%BA%B3q%B0T%BC%D2%A6%A1%A1C%A5%A6%A5i%A5H%A6b%A4T%BA%D8%28%BC%D2%A6%A11%2C%202%2C%203%29%A5%FE%C2%F9%A4u%BC%D2%0A----------%0A%B0%A8%A4W%AC%DD%20http%3A%2F%2Fvd5678.pixnet.net%2Fblog%2Fpost%2F8057442%0A----------%0A%B5l%AB%C8%A8%B9%20PIXNET%0Ahttp%3A%2F%2Fwww.pixnet.net%2F')">E-mail轉寄</a> <a href="javascript:;" onclick="pix.forwardToGB(8057442);">轉寄至留言板</a>
+ 
+		</div> <!-- .forward //-->
+		<br><center style="position: static ! important; display: block ! important; visibility: visible ! important;"><div id="blog468x60Banner"><div id="flashcontent_PT60040"><embed type="application/x-shockwave-flash" src="781b0d70-4639-012e-70b5-00e081b1464e.swf" style="" id="PT60040" name="PT60040" bgcolor="high" quality="high" wmode="transparent" allowscriptaccess="always" scale="noscale" salign="lt" flashvars="fieldid=203" width="468" height="60"></div>
+
+    </div></center>
+	    </div> <!-- .article-body //-->
+	    <div class="article-footer">
+		<ul class="refer">
+		    <li>全站分類：<a href="http://www.pixnet.net/blog/article/0/0">不設分類</a></li>
+		    		    		</ul>
+			    		<div class="back-to-top"><a href="#top" title="back to the top of the page">▲top</a></div>
+	    </div> <!-- .article-footer //-->
+	</div>
+	</div> <!-- #article-box //-->
+		  <div id="user-post">
+    <div id="trackback-box" class="user-post-box">
+    <a name="trackback"></a>
+    <h3 id="trackback-title" class="user-post-title" style="cursor: pointer;" onclick="pix.commentSwitch('trackback-text','trackback-text-switch');"><img id="trackback-text-switch" src="minus.gif" alt="open trackbacks list"> <span>引用列表 (0)</span></h3>
+    <div id="trackback-url">
+	<input id="trackback-input" value="http://vd5678.pixnet.net/blog/trackback/9251611431/8057442" type="text"> 
+	<input value="點我複製" id="d_clip_button" type="button">
+
+
+            </div>
+      <div id="trackback-text" class="user-post-text">
+            </div> <!-- #trackback-text //-->
+    </div> <!-- #trackback-box //-->
+    <div id="comment-box" class="user-post-box">
+      <a name="comments"></a>
+      <h3 id="comment-title" class="user-post-title" onclick="pix.commentSwitch('comment-text','comment-text-switch');" style="cursor: pointer;"><img id="comment-text-switch" src="minus.gif"> <span>迴響列表 (0)</span></h3>
+      <div class="post-comment"><a href="http://vd5678.pixnet.net/blog/post/8057442#comment-form">發表迴響</a></div>
+
+      <div id="comment-text" class="user-post-text">
+	        </div> <!-- #comment-text //-->
+      <a name="comment-form"></a>
+<form class="json-form" target="_blank" method="POST" action="http://vd5678.pixnet.net/blog/postcomment/8057442">
+    <div id="comment-area">
+	<div id="comment-area-2">
+	    <iframe src="index_6.html" marginheight="0" marginwidth="0" border="0" frameborder="0" scrolling="no"></iframe>
+	    	    <div class="comment-identity identity-logout">
+		<div class="choose-identity">
+		    		    <a href="http://www.pixnet.net/?done=http%3A%2F%2Fvd5678.pixnet.net%2Fblog%2Fpost%2F8057442%23comment-form" class="openid-pixnet"><span class="invisible">PIXNET</span></a>
+		    <a href="http://panel.pixnet.cc/login/facebooklogin?done=http%3A%2F%2Fvd5678.pixnet.net%2Fapi%2Fpopuplogin%3Fdone%3D%252Fblog%252Fpost%252F8057442%2523comment-form&amp;without_signup=1" class="openid-facebook" onclick="window.open(this.href, 'login', config='height=650,width=650,scrollbars=1,resizable=0'); return false; "><span class="invisible">Facebook</span></a>
+		    <a href="http://panel.pixnet.cc/login/openid?done=http%3A%2F%2Fvd5678.pixnet.net%2Fapi%2Fpopuplogin%3Fdone%3D%252Fblog%252Fpost%252F8057442%2523comment-form&amp;openid=https%3A%2F%2Fme.yahoo.com%2F&amp;without_signup=1" class="openid-yahoo" onclick="window.open(this.href, 'login', config='height=500,width=450,scrollbars=1,resizable=0'); return false; "><span class="invisible">Yahoo!</span></a>
+		    <a href="http://panel.pixnet.cc/login/openid?done=http%3A%2F%2Fvd5678.pixnet.net%2Fapi%2Fpopuplogin%3Fdone%3D%252Fblog%252Fpost%252F8057442%2523comment-form&amp;openid=https%3A%2F%2Fwww.google.com%2Faccounts%2Fo8%2Fid&amp;without_signup=1" class="openid-google" onclick="window.open(this.href, 'login', config='height=500,width=450,scrollbars=1,resizable=0'); return false; "><span class="invisible">Google</span></a>
+		    <a href="http://panel.pixnet.cc/login/livelogin?done=http%3A%2F%2Fvd5678.pixnet.net%2Fapi%2Fpopuplogin%3Fdone%3D%252Fblog%252Fpost%252F8057442%2523comment-form&amp;without_signup=1" class="openid-msn" onclick="window.open(this.href, 'login', config='height=500,width=470,scrollbars=1,resizable=0'); return false; "><span class="invisible">MSN</span></a>
+		</div>
+	    </div>
+	    	    <div class="comment-body">
+		
+				<p>您尚未登入，將以<b>訪客</b>身份迴響。亦可以上方服務帳號登入迴響</p>
+		<input value="您的暱稱 ..." style="color: rgb(187, 187, 187);" name="blogcommenttext_name" id="blogcommenttext_name" class="comment-name input-empty" type="text">		
+		
+				<div class="comment-textarea">
+		    <textarea style="color: rgb(187, 187, 187);" class="input-empty" name="blogcommenttext_body" id="blogcommenttext_body"></textarea>		    		    <div class="private-message"><label><input name="blogcomment_open" id="blogcomment_open" value="0" type="checkbox">悄悄話</label></div>
+		    		    <div id="nologin_hidden_msg" class="private-notice" style="display: none;">訪客身份迴響將無法觀看版主回覆，建議您登入之後再迴響。</div>
+		    		    		</div><!-- .comment-textarea -->
+
+				<div class="captcha" style="display: none;" id="captcha">
+		    <a id="authcode-link-url" href="#" target="_top"><img style="" src="200x50.jpeg" id="authcode-url"></a>
+		    <div>請輸入左方認證碼：<input value="" name="authCode" class="text-input" type="text"><a class="reload-captcha" href="#">看不懂,換張圖</a></div>
+		</div>
+		
+		<div class="comment-extra">
+		    <div id="unfold-comment-extra"><img src="comment-unfold.jpg"> 其他選項</div> 
+		    <button type="submit"><span>送出迴響</span></button>
+		</div>
+
+		<div id="comment-extra" class="extra" style="display: none;"><input value="電子郵件 ..." style="color: rgb(153, 153, 153);" name="blogcommenttext_mail" class="text-input input-empty" id="blogcommenttext_mail" type="text"><input value="個人網頁 ..." style="color: rgb(153, 153, 153);" name="blogcommenttext_url" class="text-input input-empty" id="blogcommenttext_url" type="text"></div>
+			    </div><!--.comment-middle-->
+	</div><!-- #comment-area-2-->
+    </div><!-- #comment-area -->
+</form>
+
+    </div> <!--  #comment-box //-->
+  </div> <!-- #user-post //-->
+
+
+
+	    </div> <!-- #article-area //-->
+            </div> <!-- #content //-->
+            <div id="links">
+              <div id="links-row-1">
+		  <div class="hslice box" id="recent-article">
+    <h4 class="box-title entry-title">
+	最新文章	    </h4>
+    <div class="box-text entry-content">
+
+<ul><li><a href="http://vd5678.pixnet.net/blog/post/8057442">認識8051的UART / 串列介面</a></li><li><a href="http://vd5678.pixnet.net/blog/post/8002926">VB 動態變更文字大小、字型、字體</a></li><li><a href="http://vd5678.pixnet.net/blog/post/7859288">C# 實作包含按鈕Button, 標籤Label的控制項集合類別</a></li><li><a href="http://vd5678.pixnet.net/blog/post/7750972">C# 如何指定Form表單的起始位置</a></li><li><a href="http://vd5678.pixnet.net/blog/post/7705517">C# 動態變更文字大小、字型、字體</a></li><li><a href="http://vd5678.pixnet.net/blog/post/7590960">淺談BJT電晶體開關</a></li><li><a href="http://vd5678.pixnet.net/blog/post/7590958">8051基本電路</a></li><li><a href="http://vd5678.pixnet.net/blog/post/7590956">MAX232標準接線</a></li><li><a href="http://vd5678.pixnet.net/blog/post/7590954">電晶體組成的RS232C準位轉換器</a></li><li><a href="http://vd5678.pixnet.net/blog/post/7590952">循序與邏輯電路設計實習 (紅綠燈)</a></li></ul>    </div>
+</div> <!-- #recent-article //-->
+<div class="hslice box" id="hot-article">
+    <h4 class="box-title entry-title">
+	熱門文章	    </h4>
+    <div class="box-text entry-content">
+
+<ul id="hotArtUl"><li><a href="http://vd5678.pixnet.net/blog/post/7590960"><span>(2288)</span>淺談BJT電晶體開關</a></li>
+<li><a href="http://vd5678.pixnet.net/blog/post/7590952"><span>(1239)</span>循序與邏輯電路設計實習 (紅綠燈)</a></li>
+<li><a href="http://vd5678.pixnet.net/blog/post/8057442"><span>(1072)</span>認識8051的UART / 串列介面</a></li>
+<li><a href="http://vd5678.pixnet.net/blog/post/7705517"><span>(761)</span>C# 動態變更文字大小、字型、字體</a></li>
+<li><a href="http://vd5678.pixnet.net/blog/post/7590956"><span>(674)</span>MAX232標準接線</a></li>
+</ul>
+
+    </div>
+</div> <!-- #hot-article //-->
+<div class="hslice box folder" id="box167192">
+    <h4 class="box-title entry-title">
+	工商服務	    </h4>
+    <div class="box-text entry-content">
+
+<div align="center">
+<div id="BA_EXTRA" name="BA_EXTRA"></div><div id="BA_Body" name="BA_Body"><div id="dotmoreArea"><table class="adszone"><tbody><tr><td align="center"><table class="bloggerads" id="area_title" name="area_title" cellpadding="5"><tbody><tr><td class="bloggerads_logo" onclick="adClick(web_address);"><font size="2"><b>BloggerAds 廣告</b></font></td></tr></tbody></table></td></tr><tr><td align="center"><table class="bloggerads" id="area_0" name="area_0" cellpadding="5"><tbody><tr><td class="bloggerads_headline" onclick="adClick('http://js1.bloggerads.net/-289177375.SAa6rtJh/20100603000014/20110406000004/1/5808/click.aspx')">illori愛樂麗優質平價</td></tr><tr><td align="center"><div id="bannerRightParent"><div id="BloggerAdsArea_0" name="BloggerAdsArea_0"><object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.adobe.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0" id="format_0" width="145" align="middle" height="120"><param name="allowScriptAccess" value="always"><param name="movie" value="http://piccdn.bloggerads.net/BA/BA_145_120_110407_illori.swf"><param name="quality" value="high"><param name="wmode" value="transparent"><param name="flashvars" value="getlink=http://js1.bloggerads.net/-289177375.SAa6rtJh/20100603000014/20110406000004/1/5808/click.aspx"><embed id="format_0" src="ba_145_120_110407_illori.swf" flashvars="getlink=http://js1.bloggerads.net/-289177375.SAa6rtJh/20100603000014/20110406000004/1/5808/click.aspx" wmode="transparent" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://adobe.com/go/getflashplayer" width="145" align="middle" height="120"></object></div></div></td></tr><tr><td class="bloggerads_text"><div class="ads_body_text" onclick="adClick('http://js1.bloggerads.net/-289177375.SAa6rtJh/20100603000014/20110406000004/1/5808/click.aspx')">換季特賣再加碼 滿千免運費 薄長袖印花T-3件$699截止時間：4/15 AM 11:00</div></td></tr><tr><td class="bloggerads_more"><span onclick="adClick('http://js1.bloggerads.net/-289177375.SAa6rtJh/20100603000014/20110406000004/1/5808/click.aspx')">更多訊息..</span></td></tr></tbody></table></td></tr><tr><td align="center"><table style="background: none repeat scroll 0% 0% rgb(255, 255, 255);" class="bloggerads" id="area_1" name="area_1" cellpadding="5"><tbody><tr><td class="bloggerads_headline" onclick="adClick('http://js1.bloggerads.net/-289177375.SAa6rtJh/20100603000014/20110328000001/1/5754/click.aspx')">身體乳液怎麼擦都沒有用？</td></tr><tr><td align="center"><div id="bannerRightParent"><div id="BloggerAdsArea_1" name="BloggerAdsArea_1"><object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.adobe.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0" id="format_1" width="145" align="middle" height="120"><param name="allowScriptAccess" value="always"><param name="movie" value="http://pic.bloggerads.net/BA/BA_145_120_110325_hirusoft.swf"><param name="quality" value="high"><param name="wmode" value="transparent"><param name="flashvars" value="getlink=http://js1.bloggerads.net/-289177375.SAa6rtJh/20100603000014/20110328000001/1/5754/click.aspx"><embed id="format_1" src="ba_145_120_110325_hirusoft.swf" flashvars="getlink=http://js1.bloggerads.net/-289177375.SAa6rtJh/20100603000014/20110328000001/1/5754/click.aspx" wmode="transparent" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://adobe.com/go/getflashplayer" width="145" align="middle" height="120"></object></div></div></td></tr><tr><td class="bloggerads_text"><div style="position: relative;" class="ads_body_text" onclick="adClick('http://js1.bloggerads.net/-289177375.SAa6rtJh/20100603000014/20110328000001/1/5754/click.aspx')">喜療舒身體修護乳，幫助肌膚修護&amp;重建，拒絕再當乾妹妹！現在參加活動還有免費試用品週週抽喔！</div></td></tr><tr><td class="bloggerads_more"><span onclick="adClick('http://js1.bloggerads.net/-289177375.SAa6rtJh/20100603000014/20110328000001/1/5754/click.aspx')">更多訊息..</span></td></tr></tbody></table></td></tr><tr><td align="center"><table style="background: none repeat scroll 0% 0% rgb(255, 255, 255);" class="bloggerads" id="area_2" name="area_2" cellpadding="5"><tbody><tr><td class="bloggerads_headline" onclick="adClick('http://js1.bloggerads.net/-289177375.SAa6rtJh/20100603000014/20110322000003/1/5741/click.aspx')">美之選膠原蛋白199</td></tr><tr><td align="center"><div id="bannerRightParent"><div id="BloggerAdsArea_2" name="BloggerAdsArea_2"><object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" codebase="http://fpdownload.adobe.com/pub/shockwave/cabs/flash/swflash.cab#version=8,0,0,0" id="format_2" width="145" align="middle" height="120"><param name="allowScriptAccess" value="always"><param name="movie" value="http://piccdn.bloggerads.net/BA/BA_145_120_110321_smilebio.swf"><param name="quality" value="high"><param name="wmode" value="transparent"><param name="flashvars" value="getlink=http://js1.bloggerads.net/-289177375.SAa6rtJh/20100603000014/20110322000003/1/5741/click.aspx"><embed id="format_2" src="ba_145_120_110321_smilebio.swf" flashvars="getlink=http://js1.bloggerads.net/-289177375.SAa6rtJh/20100603000014/20110322000003/1/5741/click.aspx" wmode="transparent" quality="high" allowscriptaccess="always" type="application/x-shockwave-flash" pluginspage="http://adobe.com/go/getflashplayer" width="145" align="middle" height="120"></object></div></div></td></tr><tr><td class="bloggerads_text"><div style="position: relative;" class="ads_body_text" onclick="adClick('http://js1.bloggerads.net/-289177375.SAa6rtJh/20100603000014/20110322000003/1/5741/click.aspx')">網路上最多人討論，最多試<br>用體驗情報，好評不斷!!<br>5天體驗199元免運費喔!!</div></td></tr><tr><td class="bloggerads_more"><span onclick="adClick('http://js1.bloggerads.net/-289177375.SAa6rtJh/20100603000014/20110322000003/1/5741/click.aspx')">更多訊息..</span></td></tr></tbody></table></td></tr><tr><td align="center"><table class="bloggerads" id="area_footer" name="area_footer"><tbody><tr><td onclick="adClick(web_address);" style="padding: 0px;"><img src="bloggerads_2.gif" border="0"></td></tr></tbody></table></td></tr></tbody></table></div><div style="top: -500px; left: -500px; visibility: hidden;" id="BAImprDiv"><img src="impr.aspx" heigh="1" onerror="this.width=0;this.height=0;" width="0" border="0" height="0"></div><div style="top: -500px; left: -500px; visibility: hidden;" id="BAWatchDiv">Impr</div></div>
+</div>
+
+<div align="center">
+
+<ins style="display: inline-table; border: medium none; height: 250px; margin: 0pt; padding: 0pt; position: relative; visibility: visible; width: 300px;"><ins id="aswift_1_anchor" style="display: block; border: medium none; height: 250px; margin: 0pt; padding: 0pt; position: relative; visibility: visible; width: 300px;"><iframe src="index_7.html" allowtransparency="true" hspace="0" marginwidth="0" marginheight="0" vspace="0" id="aswift_1" name="aswift_1" style="left: 0pt; position: absolute; top: 0pt;" width="300" frameborder="0" height="250" scrolling="no"></iframe></ins></ins><br><br>
+</div>
+
+<div align="center">
+<iframe src="index_8.html" marginwidth="0" marginheight="0" width="300" frameborder="0" height="188" scrolling="no"></iframe>
+</div>    </div>
+</div> <!-- #box167192 //-->
+              </div> <!-- #links-row-1 //-->
+              <div id="links-row-2">
+		  <div class="hslice box" id="feed">
+    <h4 class="box-title entry-title">
+	新聞交換(RSS)	    </h4>
+    <div class="box-text entry-content">
+
+    <ul>
+      <li><a title="pixnet rss" href="http://vd5678.pixnet.net/blog/feed/rss"><img alt="pixnet rss for articles" src="pixnet-rss.gif"></a></li><!--
+      --><li><a title="pixnet atom rss" href="http://vd5678.pixnet.net/blog/feed/atom"><img alt="pixnet atom rss for articles" src="pixnet-atom.gif"></a></li><!--
+      --><li><a title="reply rss" href="http://vd5678.pixnet.net/blog/comments/feed"><img alt="pixnet rss for reply" src="reply-rss.gif"></a></li><!--
+    --></ul>
+    </div>
+</div> <!-- #feed //-->
+<div class="hslice box folder" id="box167445">
+    <h4 class="box-title entry-title">
+		    </h4>
+    <div class="box-text entry-content">
+
+<div title="Click to see stats for this site by whos.amung.us (8pejuf6ih2th)" style="position: relative; display: inline-block; background-image: url(&quot;untitled&quot;); width: 81px; height: 29px; padding: 0pt; overflow: hidden; cursor: pointer;"><div style="position: absolute; top: 7px; left: 41px;"><div style="background-image: url(&quot;untitled&quot;); background-repeat: no-repeat; background-attachment: scroll; background-position: -20px -29px; position: absolute; width: 9px; height: 14px; left: 0px; line-height: 14px; overflow: hidden; padding: 0pt;"></div></div></div><br><br>
+
+<a href="http://www.sitebro.com.tw/zh82126219" class="logo" id="sitebro_stick_logo" target="_top"><img src="stick_sitebro.png" style="border: 0pt none;"></a><a href="http://www.sitebro.jp/"><img src="px.gif" style="border: 0pt none;"></a>
+
+<a href="http://blogtw.net/click.php?account=vd5678&amp;out=web&amp;url=http://blogtw.net" target="_top"><img src="book.gif" width="80" border="0" height="15"></a>    </div>
+</div> <!-- #box167445 //-->
+<div class="hslice box folder" id="box170588">
+    <h4 class="box-title entry-title">
+	版權宣告	    </h4>
+    <div class="box-text entry-content">
+
+<!--Creative Commons License--> 
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/2.5/tw/"><img alt="Creative Commons License" src="88x31.png" border="0"></a><br> 
+本著作係採用<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/2.5/tw/">創用 CC 「姓名標示─非商業性─相同方式分享 2.5 台灣版」授權條款</a>釋出。
+<!--/Creative Commons License-->     </div>
+</div> <!-- #box170588 //-->
+<div class="hslice box" id="qrcode">
+    <h4 class="box-title entry-title">
+	QR Code	    </h4>
+    <div class="box-text entry-content">
+
+<div class="qrcode">
+<img src="8057442.png">
+</div>
+    </div>
+</div> <!-- #qrcode //-->
+<div class="hslice box" id="powered">
+    <h4 class="box-title entry-title">
+	POWERED BY	    </h4>
+    <div class="box-text entry-content">
+
+    <ul>
+	<li><a title="pixnet" href="http://www.pixnet.net/"><img src="pixnet-logo.png"></a></li>
+		<li><a href="http://www.pixnet.net/?done=http%3A%2F%2Fvd5678.pixnet.net%2Fblog%2Fpost%2F8057442">(登入)</a></li><!--
+	    --></ul>
+    </div>
+</div> <!-- #powered //-->
+              </div> <!-- #links-row-2 //-->
+            </div> <!-- #links //-->
+          </div> <!-- #main //-->
+          <div id="footer">
+	  <p></p>
+            <div id="bottom">
+              <a class="bottom-skiplink" href="http://vd5678.pixnet.net/blog/post/8057442#top" title="back to the top of the page">回到頁首</a>
+              <a class="bottom-skiplink" href="http://vd5678.pixnet.net/blog/post/8057442#article-area" title="back to the main cotent of the page">回到主文</a>
+	      <a class="bottom-pixnet" href="http://www.pixnet.net/signup">免費註冊</a>
+	      <a target="_top" class="bottom-pixnet" href="http://help.pixnet.tw/">服務中心</a>
+              <a target="_top" class="bottom-pixnet" href="http://www.pixnet.net/">痞客邦首頁</a>
+	      © 2003 - 2011 PIXNET
+            </div>
+          </div> <!-- #footer //-->
+        </div> <!-- #container3 //-->
+      <div id="extradiv11"></div>
+      <div id="extradiv10"></div>
+      <div id="extradiv9"></div>
+      <div id="extradiv8"></div>
+    </div> <!-- #container2 //-->
+    <div id="extradiv7"></div>
+    <div id="extradiv6"></div>
+    <div id="extradiv5"></div>
+    <div id="extradiv4"></div>
+  </div> <!-- #container //-->
+  <div id="extradiv3"></div>
+  <div id="extradiv2"></div>
+  <div id="extradiv1"></div>
+  <div id="extradiv0"></div>
+  </div> <!-- #body-div //-->
+<div id="tipLang" style="display: none; z-index: 2147483647;" class="barmenu">
+    <ul class="lang-list" id="lang-list">
+	<li><a href="#" onclick="pix.setLocale('zh_TW'); return false;">繁體中文</a></li>
+	<li><a href="#" onclick="pix.setLocale('zh_CN'); return false;">简体中文</a></li>
+	<li><a href="#" onclick="pix.setLocale('en_US'); return false;">English</a></li>
+	<li><a href="#" onclick="pix.setLocale('ja_JP'); return false;">日本語</a></li>
+    </ul>
+</div>
+
+
+
+
+
+<div id="popup-frame" style="display: none;">
+    <div id="frame-dimmer"></div>
+    <div id="frame-box">
+       <div id="frame-border"></div>
+       <div id="frame-header">
+           <h3></h3>
+	   <a href="#" class="frame-close" title="關閉視窗"><span>關閉視窗</span></a>
+       </div>
+       <div id="frame-content"></div>
+    </div>
+</div>
+
+
+
+
+
+
+<div id="toolbar-box"><div id="toolbar-toggle"><span>切換</span></div><div id="toolbar"><div class="toolbar-content" id="toolbar-left"><ul><li class="toolbar-useravatar"><img src="20x20.jpg"></li><li class="toolbar-userinfo drop"><div>vd5678 (vd5678)</div></li><li class="toolbar-search link"><img src="search.png"><div class="search-box"><form action="http://vd5678.pixnet.net/blog/post/8057442"><input value="" name="query" type="text"></form></div></li><li class="toolbar-actions"><div class="action-label"><a class="button" id="addFriend" onclick="pixtoolbar.addfriend(); return false; "><span>加為好友</span></a> </div><div class="num-span"><a title="0 名好友" href="#" class="friend-list-iframe"><span>0</span></a></div></li><li class="toolbar-actions"><div class="action-label"> <a class="button" id="addSubscribe" onclick="pixtoolbar.addsubscription(); return false; "><span>加入訂閱</span></a> </div><div class="num-span"> <a title="0 名讀者" href="#" class="reader-list-iframe"><span>0</span></a> </div></li></ul></div><iframe id="toolbar-iframe" src="index_9.html" allowtransparency="true" width="100%" frameborder="0" height="34" scrolling="no"></iframe></div></div><div style="position: absolute; left: 294px; top: 2872px; width: 70px; height: 25px; z-index: 99;"><embed id="ZeroClipboardMovie_1" src="zeroclipboard.swf" loop="false" menu="false" quality="best" bgcolor="#ffffff" name="ZeroClipboardMovie_1" allowscriptaccess="always" allowfullscreen="false" type="application/x-shockwave-flash" pluginspage="http://www.macromedia.com/go/getflashplayer" flashvars="id=1&amp;width=70&amp;height=25" wmode="transparent" width="70" align="middle" height="25"></div></body>
+</html>

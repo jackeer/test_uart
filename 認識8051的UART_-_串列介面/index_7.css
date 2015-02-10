@@ -1,0 +1,17 @@
+/* ::::: http://s.pixfs.net/panel/css/reset.css?v=25445f24121dff404baa02114302db0c ::::: */
+
+body, div, dl, dt, dd, ul, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, textarea, p, blockquote, th, td { margin: 0pt; padding: 0pt; }
+ul { list-style: none outside none; }
+/* ::::: http://s.pixfs.net/common/toolbar/toolbar.css?v=25445f24121dff404baa02114302db0c ::::: */
+
+html { padding-bottom: 35px; }
+.toolbar-content { font-family: Verdana,Arial,Helvetica,sans-serif; color: rgb(119, 119, 119); white-space: nowrap; font-size: 12px; background: url('bg.png') repeat-x scroll center top transparent; }
+.toolbar-content ul { margin: 0pt; padding: 0pt; list-style: none outside none; }
+.toolbar-content ul li { height: 30px; padding: 2px 6px; line-height: 30px; float: left; vertical-align: middle; border-right: 1px solid rgb(212, 212, 212); border-left: 1px solid white; }
+.toolbar-content ul li.link a { padding: 0px 6px; }
+.toolbar-content ul li.drop:hover, .toolbar-content ul li.link:hover { cursor: default; background-color: rgb(239, 239, 239); }
+ul li.link { background: none repeat scroll 0% 0% transparent; }
+ul li.link a { border: 0pt none; text-decoration: none; color: rgb(119, 119, 119); }
+#toolbar-right { border-left: 1px solid rgb(212, 212, 212); float: right; margin-right: 23px; }
+.toolbar-content li > div { padding: 0pt 3px; }
+button::-moz-focus-inner { border: 0pt none; padding: 0pt; }

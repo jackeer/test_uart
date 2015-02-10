@@ -1,0 +1,4 @@
+".\OUT\main.obj",
+".\OUT\monitor.obj" 
+TO ".\OUT\test_uart" 
+PRINT(".\LIST\test_uart.m51")

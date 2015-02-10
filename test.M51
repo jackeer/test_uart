@@ -1,0 +1,71 @@
+BL51 BANKED LINKER/LOCATER V6.00                                                        04/16/2011  13:49:44  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.00, INVOKED BY:
+D:\TOOLS\KEIL_8\C51\BIN\BL51.EXE Text2.obj TO test
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  Text2.obj (TEXT2)
+  D:\TOOLS\KEIL_8\C51\LIB\C51S.LIB (?C_STARTUP)
+  D:\TOOLS\KEIL_8\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  test (TEXT2)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0002H     UNIT         ?DT?TEXT2
+            IDATA   000AH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+            CODE    0003H     008CH     UNIT         ?C_C51STARTUP
+            CODE    008FH     000AH     UNIT         ?PR?MAIN?TEXT2
+            CODE    0099H     0005H     UNIT         ?C_INITSEG
+
+
+
+OVERLAY MAP OF MODULE:   test (TEXT2)
+
+
+SEGMENT
+  +--> CALLED SEGMENT
+---------------------
+?C_C51STARTUP
+  +--> ?PR?MAIN?TEXT2
+  +--> ?C_INITSEG
+
+
+
+SYMBOL TABLE OF MODULE:  test (TEXT2)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        TEXT2
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:00A0H         PUBLIC        P2
+  C:008FH         PUBLIC        main
+  D:0008H         PUBLIC        x
+  -------         PROC          MAIN
+  C:008FH         LINE#         7
+  C:008FH         LINE#         8
+  C:008FH         LINE#         9
+BL51 BANKED LINKER/LOCATER V6.00                                                      04/16/2011  13:49:44  PAGE 2
+
+
+  C:0095H         LINE#         10
+  C:0098H         LINE#         11
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        TEXT2
+
+Program Size: data=11.0 xdata=0 code=158
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
