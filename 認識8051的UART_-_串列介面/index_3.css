@@ -1,8 +1,0 @@
-* { margin: 0px; padding: 0px; line-height: 10px; height: auto; width: auto; border: 0pt none; }
-.pixnet-push { width: 86px ! important; height: 32px; overflow: hidden; background: none repeat scroll 0% 0% rgb(230, 230, 230); }
-.push { background: url('push.jpg') no-repeat scroll left top transparent; }
-.pixnet-push a { display: block; float: left; text-decoration: none; font-family: "Tahoma"; line-height: 27px; }
-.pixnet-push a.thumb { width: 22px; height: 28px; font-size: 12px; font-weight: bold; color: rgb(0, 0, 0); padding: 0px 0px 0px 28px; }
-.pixnet-push a.number { width: 31px; height: 28px; font-size: 10px; font-weight: bold; color: rgb(136, 136, 136); text-align: center; letter-spacing: -1px; }
-.pixnet-push a.number:hover { color: rgb(0, 0, 0); }
-.pixnet-push.push a.thumb:hover { color: rgb(0, 150, 255); }
