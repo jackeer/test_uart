@@ -1,4 +1,4 @@
-C51 COMPILER V9.02   MAIN                                                                  10/08/2014 16:57:45 PAGE 1   
+C51 COMPILER V9.02   MAIN                                                                  04/07/2015 21:48:09 PAGE 1   
 
 
 C51 COMPILER V9.02, COMPILATION OF MODULE MAIN
@@ -24,59 +24,50 @@ line level    source
   14                  */
   15          
   16                  /*
-  17                  * @brief This function initialize UART @4800 baud for 12MHz XTAL.
+  17                  * @brief This function initialize UART @9600 baud for 11.0592MHz XTAL.
   18                  *
   19                  *
-  20                  * @warning 12MHz XTAL required
+  20                  * @warning 11.0592MHz XTAL required
   21                  *
-  22                  * @param void
-  23                  *
-  24                  * @return void
-  25                  *
-  26                  */
-  27          void io_init(void)
-  28          {
-  29   1              SCON = 0x50;                            // Set to enable serial reception. 8-bit UART Variable
-  30   1              TMOD = TMOD | 0x20;                     // Timer 1 Mode 2: 8-bit auto-reload Timer/Counter (TL1).(1)Reloaded from TH1 at ov
-             -erflow.
-  31   1              TH1 = 0xFA;                                     // 9600 bauds at 11.0592 MHz
-  32   1              TL1 = TH1; 
-  33   1              PCON = PCON | 0X80;                     // SMOD0 Set to select double baud rate in mode 1, 2 or 3.
-  34   1              TCON |= 0x40;                           // Set to turn on Timer/Counter 1.   
-  35   1              TI=1;                                           // Set by hardware at the end of the 8th bit time in mode 0 or at the beginning of the 
-  36   1                                                                      // stop bit in the other modes.
-  37   1      }
-  38          
-  39          void main (void) large
-  40          {
-  41   1              io_init();                              // Initialize UART
-  42   1      
-  43   1              printf("\n ATMEL AT89S51 ");                    // Welcome message 
-  44   1              printf("\n   Monitor \n\n");
+  22                  *
+  23                  */
+  24          void io_init(void)
+  25          {
+  26   1              TMOD |= 0x20;                           // Timer 1 Mode 2: 8-bit auto-reload Timer/Counter (TL1).(1)Reloaded from TH1 at overflo
+             -w.
+  27   1              TH1 = 0xFA;                                     // 9600 bauds at 11.0592 MHz
+  28   1              TL1 = TH1; 
+  29   1              TCON |= 0x40;                           // Set to turn on Timer/Counter 1.   
+  30   1              SCON |= 0x50;                           // Set to enable serial reception. 8-bit UART Variable
+  31   1              PCON |= SMOD_;                          // SMOD0 Set to select double baud rate in mode 1, 2 or 3.
+  32   1              TI=1;                                           // Set by hardware at the end of the 8th bit time in mode 0 or at the beginning of the 
+  33   1                                                                      // stop bit in the other modes.
+  34   1      }
+  35          
+  36          void main (void) large
+  37          {
+  38   1              io_init();                                      // Initialize UART
+  39   1      
+  40   1              ES=1;                   // Enable UART
+  41   1      
+  42   1              printf("\n ATMEL AT89S51 ");                    // Welcome message 
+  43   1              printf("\n   Monitor \n\n");
+  44   1      
   45   1      
-  46   1              ES=1;                   // Enable interrupts
-  47   1      
-  48   1              while (1)
-  49   1                      {
-  50   2                      /*
-  51   2                      if(RS_buf[1])
-  52   2                              {
-  53   2                              printf("\n RS_buf = ",RS_buf);
-C51 COMPILER V9.02   MAIN                                                                  10/08/2014 16:57:45 PAGE 2   
+  46   1              while (1)
+  47   1                      {
+  48   2                      #ifdef DBG_monitor
+  49   2                      while( RS_ready() )
+  50   2                              {
+  51   3                              Monitor();                              // for new monitor functions?           
+  52   3                              }
+  53   2                      #endif  // end DBG_monitor
+C51 COMPILER V9.02   MAIN                                                                  04/07/2015 21:48:09 PAGE 2   
 
-  54   2                              RS_buf[1] = 0;
-  55   2                              }
-  56   2                      */
-  57   2                      #ifdef DBG_monitor
-  58   2                      while( RS_ready() )
-  59   2                              {
-  60   3                              Monitor();                              // for new monitor functions?           
-  61   3                              }
-  62   2                      #endif  // end DBG_monitor
-  63   2                      }
-  64   1      }
-  65          
-  66          
+  54   2                      }
+  55   1      }
+  56          
+  57          
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE

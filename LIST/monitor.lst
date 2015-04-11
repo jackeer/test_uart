@@ -1,4 +1,4 @@
-C51 COMPILER V9.02   MONITOR                                                               10/08/2014 16:57:45 PAGE 1   
+C51 COMPILER V9.02   MONITOR                                                               04/07/2015 21:48:09 PAGE 1   
 
 
 C51 COMPILER V9.02, COMPILATION OF MODULE MONITOR
@@ -62,7 +62,7 @@ line level    source
   52   1              Printf("\r\n");
   53   1              Printf("\r\n");
   54   1              Printf("\r\n");
-C51 COMPILER V9.02   MONITOR                                                               10/08/2014 16:57:45 PAGE 2   
+C51 COMPILER V9.02   MONITOR                                                               04/07/2015 21:48:09 PAGE 2   
 
   55   1              Printf("\r\n");
   56   1              Printf("\r\n");
@@ -97,19 +97,19 @@ line level    source
   85   1      
   86   1              Printf("\r\n   clean               ; clean Screan                       cls ");
   87   1              Printf("\r\n   access              ; Program Access OFF/ON              acc ");
-  88   1              Printf("\r\n   display             ; Display CAN ID & DATA              dis ");
+  88   1              // Printf("\r\n   display             ; Display CAN ID & DATA              dis ");
   89   1              Printf("\r\n   help                ; Show HELP                          ? & h ");
-  90   1              Printf("\r\n   incpage             ; Inc CAN Channel                    ip ");
-  91   1              Printf("\r\n   findchannel         ; Show CAN CH. Info [0 - 15]         ff  ");
-  92   1              Printf("\r\n   asc2bin [00-ff]     ; Type asc2bin Then Type Num.        a2b ");
-  93   1              Printf("\r\n   reset               ; Software reset                     rst ");
-  94   1              Printf("\r\n   setchannel          ; Set Channel                        setch ");
-  95   1              Printf("\r\n   disnodet            ; Dis No Detect Show                 dndt ");
+  90   1              // Printf("\r\n   incpage             ; Inc CAN Channel                    ip ");
+  91   1              // Printf("\r\n   findchannel         ; Show CAN CH. Info [0 - 15]         ff  ");
+  92   1              // Printf("\r\n   asc2bin [00-ff]     ; Type asc2bin Then Type Num.        a2b ");
+  93   1              // Printf("\r\n   reset               ; Software reset                     rst ");
+  94   1              // Printf("\r\n   setchannel          ; Set Channel                        setch ");
+  95   1              // Printf("\r\n   disnodet            ; Dis No Detect Show                 dndt ");
   96   1      
-  97   1              Printf("\r\n   canon               ; Enable CAN                         canon ");
-  98   1              Printf("\r\n   canoff              ; Disable CAN                        canof ");
-  99   1              Printf("\r\n   cantrigger          ; Show CAN Trigger Status            ctrg ");
- 100   1              Printf("\r\n   cycstatus           ; Show Cycle Status                  cycst ");
+  97   1              // Printf("\r\n   canon               ; Enable CAN                         canon ");
+  98   1              // Printf("\r\n   canoff              ; Disable CAN                        canof ");
+  99   1              // Printf("\r\n   cantrigger          ; Show CAN Trigger Status            ctrg ");
+ 100   1              // Printf("\r\n   cycstatus           ; Show Cycle Status                  cycst ");
  101   1      
  102   1              // Printf("\r\n   AutoDetect [0,1] ; PC Automode OFF/ON");
  103   1              // Printf("\r\n   PCAuto                    ; RUN PC Auto Adjust");
@@ -122,204 +122,206 @@ line level    source
  110   1              Printf("\r\n");
  111   1      }
  112          
- 113          BYTE Asc1Bin(BYTE asc) large
- 114          {
- 115   1              if(asc>='0' && asc <='9') return (asc - '0');
- 116   1              if(asc>='a' && asc <='f') return (asc - 'a' + 0x0a);
-C51 COMPILER V9.02   MONITOR                                                               10/08/2014 16:57:45 PAGE 3   
+ 113          #if 0
+              BYTE Asc1Bin(BYTE asc) large
+              {
+                      if(asc>='0' && asc <='9') return (asc - '0');
+C51 COMPILER V9.02   MONITOR                                                               04/07/2015 21:48:09 PAGE 3   
 
- 117   1              if(asc>='A' && asc <='F') return (asc - 'A' + 0x0a);
- 118   1      
- 119   1              return asc;
- 120   1      }
- 121          
- 122          void Asc2Bin(BYTE *s, BYTE *bin) large
- 123          {
- 124   1              BYTE *ptr_tmp;
- 125   1      
- 126   1              ptr_tmp = bin;
- 127   1              while(*s != '\0' && *s !=' ' && *s !='\n') 
- 128   1                      {
- 129   2                      *bin = Asc1Bin(*s);
- 130   2                      printf("str... %s01\n", s);
- 131   2                      printf("bin... %x01\n", bin);
- 132   2                      s++;
- 133   2                      bin++;
- 134   2                      }
- 135   1      
- 136   1              // printf(" == %x == \n", ptr_tmp);
- 137   1              *bin='\n';
- 138   1      }
- 139          
- 140          //=============================================================================
- 141          //                      For Get UART RX line String
+                      if(asc>='a' && asc <='f') return (asc - 'a' + 0x0a);
+                      if(asc>='A' && asc <='F') return (asc - 'A' + 0x0a);
+              
+                      return asc;
+              }
+              
+              void Asc2Bin(BYTE *s, BYTE *bin) large
+              {
+                      BYTE *ptr_tmp;
+              
+                      ptr_tmp = bin;
+                      while(*s != '\0' && *s !=' ' && *s !='\n') 
+                              {
+                              *bin = Asc1Bin(*s);
+                              printf("str... %s01\n", s);
+                              printf("bin... %x01\n", bin);
+                              s++;
+                              bin++;
+                              }
+              
+                      // printf(" == %x == \n", ptr_tmp);
+                      *bin='\n';
+              }
+              #endif
+ 141          
  142          //=============================================================================
- 143          int getline(char s[], int N) large
- 144          {
- 145   1          int c, i;
- 146   1      
- 147   1          for (i=0; i<N-1 && (c=getchar()) != EOF && c != '\n'; ++i)
- 148   1              s[i] = c;
- 149   1          if (c == '\n') {
- 150   2              s[i] = c;
- 151   2              ++i;
- 152   2          }
- 153   1          s[i] = '\0';
- 154   1          return i;
- 155   1      }
- 156          
- 157          //=============================================================================
- 158          //              Serial RX Check                                                                                                    
+ 143          //                      For Get UART RX line String
+ 144          //=============================================================================
+ 145          int getline(char s[], int N) large
+ 146          {
+ 147   1          int c, i;
+ 148   1      
+ 149   1          for (i=0; i<N-1 && (c=getchar()) != EOF && c != '\n'; ++i)
+ 150   1              s[i] = c;
+ 151   1          if (c == '\n') {
+ 152   2              s[i] = c;
+ 153   2              ++i;
+ 154   2          }
+ 155   1          s[i] = '\0';
+ 156   1          return i;
+ 157   1      }
+ 158          
  159          //=============================================================================
- 160          BYTE RS_ready(void) large
- 161          {
- 162   1              return RI;              // Set by hardware at the end of the 8th bit time in mode 0
- 163   1      }
- 164          
- 165          void Monitor(void) large
- 166          {
- 167   1          BYTE ch_buf[STR_MAX]=0, ch_data[STR_MAX]=0;
- 168   1          int num;
- 169   1      
- 170   1          // while ((n = getline(ch_buf, 8)) > 0)
- 171   1          printf("\rPrompt:>");
- 172   1              num = getline(ch_buf, STR_MAX);
- 173   1              printf("\r%d:%s\n", (WORD)num-1, ch_buf);
- 174   1      
- 175   1              // printf("strncmp( ch_buf, auto,4 )) = %d\n",(WORD)(strncmp( ch_buf, "auto",4 )));
- 176   1              
- 177   1              if( !strncmp( ch_buf, "clean",5) || !strncmp( ch_buf, "cls",3 ) ) 
- 178   1                      clean_screen();
-C51 COMPILER V9.02   MONITOR                                                               10/08/2014 16:57:45 PAGE 4   
+ 160          //              Serial RX Check                                                                                                    
+ 161          //=============================================================================
+ 162          BYTE RS_ready(void) large
+ 163          {
+ 164   1              return RI;              // Set by hardware at the end of the 8th bit time in mode 0
+ 165   1      }
+ 166          
+ 167          void Monitor(void) large
+ 168          {
+ 169   1          BYTE ch_buf[STR_MAX]=0, ch_data[STR_MAX]=0;
+ 170   1          int num;
+ 171   1      
+ 172   1          // while ((n = getline(ch_buf, 8)) > 0)
+ 173   1          printf("\rPrompt:>");
+ 174   1              num = getline(ch_buf, STR_MAX);
+ 175   1              printf("\r%d:%s\n", (WORD)num-1, ch_buf);
+ 176   1      
+ 177   1              // printf("strncmp( ch_buf, auto,4 )) = %d\n",(WORD)(strncmp( ch_buf, "auto",4 )));
+ 178   1              
+C51 COMPILER V9.02   MONITOR                                                               04/07/2015 21:48:09 PAGE 4   
 
- 179   1              else if( !strncmp( ch_buf, "access",6) || !strncmp( ch_buf, "acc",3 ) ) 
- 180   1                      {
- 181   2                      if(f_access)
- 182   2                              {
- 183   3                              f_access=0;
- 184   3                              printf("\rAccess = Enable LOW \n");
- 185   3                              }
- 186   2                      else
- 187   2                              {
- 188   3                              f_access=1;
- 189   3                              printf("\rAccess = Disable HI \n");
- 190   3                              }
- 191   2                      }
- 192   1              // else if( !strncmp( ch_buf, "display",7) || !strncmp( ch_buf, "dis",3 ) ) 
- 193   1                      // {
- 194   1                      // can_detect();
- 195   1                      // display();
- 196   1                      // }
- 197   1              else if( !strncmp( ch_buf, "asc2bin",7) || !strncmp( ch_buf, "a2b",3 ) ) 
- 198   1                      {
- 199   2                      printf("\rasc2bin Please Type Num.\n");
- 200   2                      num = getline(ch_buf, STR_MAX);
- 201   2                      Asc2Bin(ch_buf, ch_data);
- 202   2                      printf("\rInput Char Num = %x\n", ch_data);
- 203   2                      }
- 204   1              // else if( !strncmp( ch_buf, "reset",5 ) || !strncmp( ch_buf, "rst",3 )) 
- 205   1                      // {
- 206   1                      // Long_call(0);
- 207   1                      // printf("\rReset... \n");
- 208   1                      // }
- 209   1              // else if( !strncmp( ch_buf, "setchannel",10 ) || !strncmp( ch_buf, "setch",5 )) 
- 210   1                      // {
- 211   1                      // printf("\rasc2bin Please Type Num.\n");
- 212   1                      // num = getline(ch_buf, STR_MAX);
- 213   1                      // CAN_SET_CHANNEL(Asc2Bin(ch_buf));
- 214   1                      // printf("\rSet Channel = %02x\n",(WORD)(Asc2Bin(ch_buf)));
- 215   1                      // }
- 216   1              //------------------------- Help -------------------------------
- 217   1              else if( !strncmp( ch_buf, "help",4 ) || !strncmp( ch_buf, "?",1 ) || !strncmp( ch_buf, "h",1 )) 
- 218   1                      {
- 219   2                      MonHelp();
- 220   2                      }
- 221   1              //---------------------- Test Function -------------------------
- 222   1      /*
- 223   1              else if( !strncmp( ch_buf, "findchannel",11) || !strncmp( ch_buf, "ff",2 )) 
- 224   1                      {
- 225   1                      printf("\rPage = %2x\n",(WORD)(CAN_GET_CHANNEL & 0x03));
- 226   1                      printf("\rChannel = %2x\n",(WORD)(FindFirstChIt() & 0x0f));
- 227   1                      // printf("\rChannel = %2x\n",(WORD)(CANSIT2 & 0x0f));
- 228   1                      printf("\rCAN Enable = %02x\n",(WORD)(CANEN2 & 0x0f));
- 229   1                      }
- 230   1              else if( !strncmp( ch_buf, "incpage",7 ) || !strncmp( ch_buf, "ip",2 )) 
- 231   1                      {
- 232   1                      num = (BYTE)((CAN_GET_CHANNEL & 0x03)+1);
- 233   1                      if (num > 3)
- 234   1                              num=0;
- 235   1                      CAN_SET_CHANNEL(num);
- 236   1                      CAN_CHANNEL_IT_ENABLE(num);
- 237   1                      can_detect();
- 238   1                      display();
- 239   1                      // printf("\rSet Channel = %02x\n",(WORD)(Asc2Bin(ch_buf)));
- 240   1                      }
-C51 COMPILER V9.02   MONITOR                                                               10/08/2014 16:57:45 PAGE 5   
+ 179   1              if( !strncmp( ch_buf, "clean",5) || !strncmp( ch_buf, "cls",3 ) ) 
+ 180   1                      clean_screen();
+ 181   1              else if( !strncmp( ch_buf, "access",6) || !strncmp( ch_buf, "acc",3 ) ) 
+ 182   1                      {
+ 183   2                      if(f_access)
+ 184   2                              {
+ 185   3                              f_access=0;
+ 186   3                              printf("\rAccess = Enable LOW \n");
+ 187   3                              }
+ 188   2                      else
+ 189   2                              {
+ 190   3                              f_access=1;
+ 191   3                              printf("\rAccess = Disable HI \n");
+ 192   3                              }
+ 193   2                      }
+ 194   1              // else if( !strncmp( ch_buf, "display",7) || !strncmp( ch_buf, "dis",3 ) ) 
+ 195   1                      // {
+ 196   1                      // can_detect();
+ 197   1                      // display();
+ 198   1                      // }
+ 199   1              // else if( !strncmp( ch_buf, "asc2bin",7) || !strncmp( ch_buf, "a2b",3 ) ) 
+ 200   1                      // {
+ 201   1                      // printf("\rasc2bin Please Type Num.\n");
+ 202   1                      // num = getline(ch_buf, STR_MAX);
+ 203   1                      // Asc2Bin(ch_buf, ch_data);
+ 204   1                      // printf("\rInput Char Num = %x\n", ch_data);
+ 205   1                      // }
+ 206   1              // else if( !strncmp( ch_buf, "reset",5 ) || !strncmp( ch_buf, "rst",3 )) 
+ 207   1                      // {
+ 208   1                      // Long_call(0);
+ 209   1                      // printf("\rReset... \n");
+ 210   1                      // }
+ 211   1              // else if( !strncmp( ch_buf, "setchannel",10 ) || !strncmp( ch_buf, "setch",5 )) 
+ 212   1                      // {
+ 213   1                      // printf("\rasc2bin Please Type Num.\n");
+ 214   1                      // num = getline(ch_buf, STR_MAX);
+ 215   1                      // CAN_SET_CHANNEL(Asc2Bin(ch_buf));
+ 216   1                      // printf("\rSet Channel = %02x\n",(WORD)(Asc2Bin(ch_buf)));
+ 217   1                      // }
+ 218   1              //------------------------- Help -------------------------------
+ 219   1              else if( !strncmp( ch_buf, "help",4 ) || !strncmp( ch_buf, "?",1 ) || !strncmp( ch_buf, "h",1 )) 
+ 220   1                      {
+ 221   2                      MonHelp();
+ 222   2                      }
+ 223   1              //---------------------- Test Function -------------------------
+ 224   1      /*
+ 225   1              else if( !strncmp( ch_buf, "findchannel",11) || !strncmp( ch_buf, "ff",2 )) 
+ 226   1                      {
+ 227   1                      printf("\rPage = %2x\n",(WORD)(CAN_GET_CHANNEL & 0x03));
+ 228   1                      printf("\rChannel = %2x\n",(WORD)(FindFirstChIt() & 0x0f));
+ 229   1                      // printf("\rChannel = %2x\n",(WORD)(CANSIT2 & 0x0f));
+ 230   1                      printf("\rCAN Enable = %02x\n",(WORD)(CANEN2 & 0x0f));
+ 231   1                      }
+ 232   1              else if( !strncmp( ch_buf, "incpage",7 ) || !strncmp( ch_buf, "ip",2 )) 
+ 233   1                      {
+ 234   1                      num = (BYTE)((CAN_GET_CHANNEL & 0x03)+1);
+ 235   1                      if (num > 3)
+ 236   1                              num=0;
+ 237   1                      CAN_SET_CHANNEL(num);
+ 238   1                      CAN_CHANNEL_IT_ENABLE(num);
+ 239   1                      can_detect();
+ 240   1                      display();
+C51 COMPILER V9.02   MONITOR                                                               04/07/2015 21:48:09 PAGE 5   
 
- 241   1              else if( !strncmp( ch_buf, "disnodet",8 ) || !strncmp( ch_buf, "dndt",4 )) 
- 242   1                      {
- 243   1                      DIS_NODET;
- 244   1                      dputs("\rCAN NO Detect... \n");
- 245   1                      }
- 246   1              else if( !strncmp( ch_buf, "canon",5 ) || !strncmp( ch_buf, "canon",5 )) 
- 247   1                      {
- 248   1                      CAN_CONTROLLER_ENABLE;
- 249   1                      dputs("\rCAN_CONTROLLER_ENABLE \n");
- 250   1                      }
- 251   1              else if( !strncmp( ch_buf, "canoff",6 ) || !strncmp( ch_buf, "canof",5 ))
- 252   1                      {
- 253   1                      CAN_CONTROLLER_DISABLE;
- 254   1                      dputs("\rCAN_CONTROLLER_DISABLE \n");
- 255   1                      }
- 256   1              else if( !strncmp( ch_buf, "cantrigger",10 ) || !strncmp( ch_buf, "ctrg",4 )) 
- 257   1                      {
- 258   1                      dputs("\rSTD_System             0 \n");
- 259   1                      dputs("\rCAN_System             1 \n");
- 260   1                      printf("\rCANSTD_SW = %x \n",(WORD)CANSTD_SW);
- 261   1                      printf("\rRadar1_Type = %x \n",(WORD)Radar1_Type);
- 262   1                      printf("\rRadar2_Type = %x \n",(WORD)Radar2_Type);
- 263   1                      printf("\rRadarTrigger = %x \n",(WORD)RadarTrigger);
- 264   1                      }
- 265   1              else if( !strncmp( ch_buf, "cycstatus",10 ) || !strncmp( ch_buf, "cycst",5 ))
- 266   1                      {
- 267   1                      printf("\rCySw2 = %x \n",(WORD)CySw2);
- 268   1                      printf("\rCySw3 = %x \n",(WORD)CySw3);
- 269   1                      if(f_DBG_CYC)
- 270   1                              {
- 271   1                              f_DBG_CYC=0;
- 272   1                              dputs("\rf_DBG_CYC = Low \n");
- 273   1                              }
- 274   1                      else
- 275   1                              {
- 276   1                              f_DBG_CYC=1;
- 277   1                              dputs("\rf_DBG_CYC = Hi \n");
- 278   1                              }
- 279   1                      }
- 280   1      */
- 281   1              
- 282   1      
- 283   1              //---------------------- End -----------------------------------
- 284   1              else
- 285   1                      {
- 286   2                      printf("\rType null \n");
- 287   2                      }
- 288   1      
- 289   1      }
- 290          
- 291          #endif // end DBG_monitor
+ 241   1                      // printf("\rSet Channel = %02x\n",(WORD)(Asc2Bin(ch_buf)));
+ 242   1                      }
+ 243   1              else if( !strncmp( ch_buf, "disnodet",8 ) || !strncmp( ch_buf, "dndt",4 )) 
+ 244   1                      {
+ 245   1                      DIS_NODET;
+ 246   1                      dputs("\rCAN NO Detect... \n");
+ 247   1                      }
+ 248   1              else if( !strncmp( ch_buf, "canon",5 ) || !strncmp( ch_buf, "canon",5 )) 
+ 249   1                      {
+ 250   1                      CAN_CONTROLLER_ENABLE;
+ 251   1                      dputs("\rCAN_CONTROLLER_ENABLE \n");
+ 252   1                      }
+ 253   1              else if( !strncmp( ch_buf, "canoff",6 ) || !strncmp( ch_buf, "canof",5 ))
+ 254   1                      {
+ 255   1                      CAN_CONTROLLER_DISABLE;
+ 256   1                      dputs("\rCAN_CONTROLLER_DISABLE \n");
+ 257   1                      }
+ 258   1              else if( !strncmp( ch_buf, "cantrigger",10 ) || !strncmp( ch_buf, "ctrg",4 )) 
+ 259   1                      {
+ 260   1                      dputs("\rSTD_System             0 \n");
+ 261   1                      dputs("\rCAN_System             1 \n");
+ 262   1                      printf("\rCANSTD_SW = %x \n",(WORD)CANSTD_SW);
+ 263   1                      printf("\rRadar1_Type = %x \n",(WORD)Radar1_Type);
+ 264   1                      printf("\rRadar2_Type = %x \n",(WORD)Radar2_Type);
+ 265   1                      printf("\rRadarTrigger = %x \n",(WORD)RadarTrigger);
+ 266   1                      }
+ 267   1              else if( !strncmp( ch_buf, "cycstatus",10 ) || !strncmp( ch_buf, "cycst",5 ))
+ 268   1                      {
+ 269   1                      printf("\rCySw2 = %x \n",(WORD)CySw2);
+ 270   1                      printf("\rCySw3 = %x \n",(WORD)CySw3);
+ 271   1                      if(f_DBG_CYC)
+ 272   1                              {
+ 273   1                              f_DBG_CYC=0;
+ 274   1                              dputs("\rf_DBG_CYC = Low \n");
+ 275   1                              }
+ 276   1                      else
+ 277   1                              {
+ 278   1                              f_DBG_CYC=1;
+ 279   1                              dputs("\rf_DBG_CYC = Hi \n");
+ 280   1                              }
+ 281   1                      }
+ 282   1      */
+ 283   1              
+ 284   1      
+ 285   1              //---------------------- End -----------------------------------
+ 286   1              else
+ 287   1                      {
+ 288   2                      printf("\rType null \n");
+ 289   2                      }
+ 290   1      
+ 291   1      }
  292          
- 293          
+ 293          #endif // end DBG_monitor
+ 294          
+ 295          
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =   1485    ----
-   CONSTANT SIZE    =   1398    ----
-   XDATA SIZE       =   ----      64
+   CODE SIZE        =   1050    ----
+   CONSTANT SIZE    =    565    ----
+   XDATA SIZE       =   ----      53
    PDATA SIZE       =   ----    ----
+C51 COMPILER V9.02   MONITOR                                                               04/07/2015 21:48:09 PAGE 6   
+
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----
-C51 COMPILER V9.02   MONITOR                                                               10/08/2014 16:57:45 PAGE 6   
-
    BIT SIZE         =      1    ----
 END OF MODULE INFORMATION.
 

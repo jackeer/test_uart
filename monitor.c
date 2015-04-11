@@ -85,19 +85,19 @@ void MonHelp(void) large
 
 	Printf("\r\n   clean               ; clean Screan                       cls ");
 	Printf("\r\n   access              ; Program Access OFF/ON              acc ");
-	Printf("\r\n   display             ; Display CAN ID & DATA              dis ");
+	// Printf("\r\n   display             ; Display CAN ID & DATA              dis ");
 	Printf("\r\n   help                ; Show HELP                          ? & h ");
-	Printf("\r\n   incpage             ; Inc CAN Channel                    ip ");
-	Printf("\r\n   findchannel         ; Show CAN CH. Info [0 - 15]         ff  ");
-	Printf("\r\n   asc2bin [00-ff]     ; Type asc2bin Then Type Num.        a2b ");
-	Printf("\r\n   reset               ; Software reset                     rst ");
-	Printf("\r\n   setchannel          ; Set Channel                        setch ");
-	Printf("\r\n   disnodet            ; Dis No Detect Show                 dndt ");
+	// Printf("\r\n   incpage             ; Inc CAN Channel                    ip ");
+	// Printf("\r\n   findchannel         ; Show CAN CH. Info [0 - 15]         ff  ");
+	// Printf("\r\n   asc2bin [00-ff]     ; Type asc2bin Then Type Num.        a2b ");
+	// Printf("\r\n   reset               ; Software reset                     rst ");
+	// Printf("\r\n   setchannel          ; Set Channel                        setch ");
+	// Printf("\r\n   disnodet            ; Dis No Detect Show                 dndt ");
 
-	Printf("\r\n   canon               ; Enable CAN                         canon ");
-	Printf("\r\n   canoff              ; Disable CAN                        canof ");
-	Printf("\r\n   cantrigger          ; Show CAN Trigger Status            ctrg ");
-	Printf("\r\n   cycstatus           ; Show Cycle Status                  cycst ");
+	// Printf("\r\n   canon               ; Enable CAN                         canon ");
+	// Printf("\r\n   canoff              ; Disable CAN                        canof ");
+	// Printf("\r\n   cantrigger          ; Show CAN Trigger Status            ctrg ");
+	// Printf("\r\n   cycstatus           ; Show Cycle Status                  cycst ");
 
 	// Printf("\r\n   AutoDetect [0,1] ; PC Automode OFF/ON");
 	// Printf("\r\n   PCAuto		    ; RUN PC Auto Adjust");
@@ -110,6 +110,7 @@ void MonHelp(void) large
 	Printf("\r\n");
 }
 
+#if 0
 BYTE Asc1Bin(BYTE asc) large
 {
 	if(asc>='0' && asc <='9') return (asc - '0');
@@ -136,6 +137,7 @@ void Asc2Bin(BYTE *s, BYTE *bin) large
 	// printf(" == %x == \n", ptr_tmp);
 	*bin='\n';
 }
+#endif
 
 //=============================================================================
 //			For Get UART RX line String
@@ -194,13 +196,13 @@ void Monitor(void) large
 		// can_detect();
 		// display();
 		// }
-	else if( !strncmp( ch_buf, "asc2bin",7) || !strncmp( ch_buf, "a2b",3 ) ) 
-		{
-		printf("\rasc2bin Please Type Num.\n");
-		num = getline(ch_buf, STR_MAX);
-		Asc2Bin(ch_buf, ch_data);
-		printf("\rInput Char Num = %x\n", ch_data);
-		}
+	// else if( !strncmp( ch_buf, "asc2bin",7) || !strncmp( ch_buf, "a2b",3 ) ) 
+		// {
+		// printf("\rasc2bin Please Type Num.\n");
+		// num = getline(ch_buf, STR_MAX);
+		// Asc2Bin(ch_buf, ch_data);
+		// printf("\rInput Char Num = %x\n", ch_data);
+		// }
 	// else if( !strncmp( ch_buf, "reset",5 ) || !strncmp( ch_buf, "rst",3 )) 
 		// {
 		// Long_call(0);
